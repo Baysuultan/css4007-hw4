@@ -102,6 +102,7 @@ class StrategyRunner:
                 model=MODEL,
                 messages=messages,
                 max_completion_tokens=500,
+                reasoning_effort="none",
                 **options,
             )
         except BadRequestError as error:
@@ -113,6 +114,7 @@ class StrategyRunner:
                 model=MODEL,
                 messages=messages,
                 max_completion_tokens=500,
+                reasoning_effort="none",
                 **options,
             )
         else:
