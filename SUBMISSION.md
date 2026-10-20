@@ -164,70 +164,94 @@ None. `lookup` returns at most four short, cited excerpts; it excludes archived 
 ```text
 python -m pytest -q
 ...................                                                      [100%]
-19 passed in 1.91s
+19 passed in 1.96s
 ```
 
 ### B3 — The loop
 
 - Round limit, and why: 5 assistant/tool rounds. A question normally needs only a few fact lookups and calculations; the limit prevents an unbounded loop. If the fifth response still requests tools, the question is marked unanswered.
 - Where the logs are: `outputs/<run-id>_<strategy>.jsonl` records each question, model-call usage/time, each tool call's ID, raw and parsed inputs, result and tool duration. `outputs/<run-id>_summary.json` contains aggregate metrics and per-question scores.
-- Real Q-09 conversation compared with my A3 version, what is different: Not measured yet. The API key is not configured in this environment, so no real conversation has been generated; the saved A3 exchange is the planned conversation, not a claimed model trace.
+- Real Q-09 conversation compared with my A3 version, what is different: In both full runs, the model made one lookup call for Brightwater, Millbrook, and the Brightwater correction, then two separate calculate calls (`44675 / 921.4` and `37203 / 758.6`), followed by a final answer. My hand-written A3 used a single subtraction expression in one calculate call. The real model chose to calculate each density separately and subtract in its own final step. Run 1 returned `ANSWER: Millbrook | 0.56 residents per square kilometre`.
 
 ### B4 — Three strategies
 
 **What I kept the same:**
 
-Model `gpt-5.6-luna`, Chat Completions API, the same 20 questions, base answer-format instructions, and `max_completion_tokens=500`. S1 and S2 receive all 17 source documents; S3 receives no corpus text and has only the two tools. S2 makes five independent calls (`k=5`) with `temperature=1`; the runner retries without that setting only if the API rejects it, and records whether temperature was supported. S3 uses a five-round limit. Usage sums every API response, including all five S2 samples and every S3 round. API token prices are supplied through `OPENAI_INPUT_PRICE_PER_MILLION` and `OPENAI_OUTPUT_PRICE_PER_MILLION`; cost stays blank in results unless both rates are configured.
+Model `gpt-5.6-luna`, Chat Completions API, `reasoning_effort=none` (required by this model for tools on this endpoint), the same 20 questions, base answer-format instructions, and `max_completion_tokens=500`. S1 and S2 receive all 17 source documents; S3 receives no corpus text and has only the two tools. S2 makes five independent calls (`k=5`) with `temperature=1`; the API accepted this setting in both runs. S3 uses a five-round limit. Usage sums every API response, including all five S2 samples and every S3 round. API token prices can be supplied through `OPENAI_INPUT_PRICE_PER_MILLION` and `OPENAI_OUTPUT_PRICE_PER_MILLION`; they were not known for this model, so costs are unavailable.
 
 **My rule for a correct answer** (written before the first full run):
 
 The parsed answer label must exactly match the expected name or `yes`/`no` (case-insensitive); the numeric value must be within `10^-decimals` of the expected value. The tolerance is one unit in the last reported decimal place. An unparseable or absent `ANSWER:` line is unanswered/incorrect.
 
-**Run status:** No paid model runs have been made: `OPENAI_API_KEY` is not set. Therefore the result and per-question tables below are intentionally unfilled; no API outputs, timings, costs, or accuracies have been fabricated. Configure a local, ignored `.env`, then run the pilot and two full runs as described in `README.md` before submitting.
-
-Example commands after setting the key and both token-price environment variables:
+**Runs completed:** `run1` and `run2` each cover all 20 questions for S1, S2, and S3. A separate five-question S3 experiment compares the clear and vague lookup descriptions. Exact model token prices were not available, so costs in USD are reported as unavailable rather than guessed. All run logs and summaries are saved in `outputs/`.
 
 ```text
-python run.py --run-id pilot --strategies S3 --questions Q-09 Q-01 Q-18
 python run.py --run-id run1
 python run.py --run-id run2
-python run.py --run-id c1-clear --strategies S3 --questions Q-01 Q-02 Q-03 Q-04 Q-05
-python run.py --run-id c1-vague --strategies S3 --questions Q-01 Q-02 Q-03 Q-04 Q-05 --vague-lookup
+python run.py --run-id c1_clear --strategies S3 --questions Q-01 Q-09 Q-13 Q-18 Q-20
+python run.py --run-id c1_vague --strategies S3 --questions Q-01 Q-09 Q-13 Q-18 Q-20 --vague-lookup
 ```
 
 | Run | Strategy | Correct /20 | Unanswered | Input tokens | Output tokens | Median seconds per question | Total seconds | Cost ($) |
 |---|---|---:|---:|---:|---:|---:|---:|---:|
-| 1 | S1 direct | | | | | | | |
-| 1 | S2 think and vote (k = ) | | | | | | | |
-| 1 | S3 tools | | | | | | | |
-| 2 | S1 direct | | | | | | | |
-| 2 | S2 think and vote (k = ) | | | | | | | |
-| 2 | S3 tools | | | | | | | |
+| 1 | S1 direct | 15/20 | 0 | 48,000 | 2,004 | 1.69 | 37.01 | unavailable |
+| 1 | S2 think and vote (k = 5) | 4/20 | 0 | 241,900 | 1,753 | 5.50 | 113.70 | unavailable |
+| 1 | S3 tools | 19/20 | 1 | 47,666 | 3,466 | 4.66 | 103.08 | unavailable |
+| 2 | S1 direct | 14/20 | 0 | 48,000 | 1,876 | 1.77 | 38.08 | unavailable |
+| 2 | S2 think and vote (k = 5) | 4/20 | 0 | 241,900 | 1,816 | 5.43 | 108.17 | unavailable |
+| 2 | S3 tools | 17/20 | 2 | 50,017 | 3,639 | 5.33 | 107.32 | unavailable |
 
 **Per question (run 1):**
 
 | Question | S1 | S2 | S3 |
 |---|:---:|:---:|:---:|
-| Q-01 | | | |
-| Q-02 | | | |
-| Q-03 | | | |
-| Q-04 | | | |
-| Q-05 | | | |
-| Q-06 | | | |
-| Q-07 | | | |
-| Q-08 | | | |
-| Q-09 | | | |
-| Q-10 | | | |
-| Q-11 | | | |
-| Q-12 | | | |
-| Q-13 | | | |
-| Q-14 | | | |
-| Q-15 | | | |
-| Q-16 | | | |
-| Q-17 | | | |
-| Q-18 | | | |
-| Q-19 | | | |
-| Q-20 | | | |
+| Q-01 | ✓ | ✗ | ✓ |
+| Q-02 | ✓ | ✗ | ✓ |
+| Q-03 | ✓ | ✗ | ✓ |
+| Q-04 | ✓ | ✗ | ✓ |
+| Q-05 | ✗ | ✗ | ✓ |
+| Q-06 | ✓ | ✓ | ✓ |
+| Q-07 | ✓ | ✗ | ✓ |
+| Q-08 | ✓ | ✗ | ✓ |
+| Q-09 | ✓ | ✗ | ✓ |
+| Q-10 | ✓ | ✓ | ✓ |
+| Q-11 | ✓ | ✗ | ✓ |
+| Q-12 | ✓ | ✗ | ✓ |
+| Q-13 | ✓ | ✓ | ✓ |
+| Q-14 | ✓ | ✗ | ✓ |
+| Q-15 | ✗ | ✗ | ✓ |
+| Q-16 | ✓ | ✓ | ✓ |
+| Q-17 | ✗ | ✗ | ✗ |
+| Q-18 | ✗ | ✗ | ✓ |
+| Q-19 | ✓ | ✗ | ✓ |
+| Q-20 | ✗ | ✗ | ✓ |
+
+**Per question (run 2):**
+
+| Question | S1 | S2 | S3 |
+|---|:---:|:---:|:---:|
+| Q-01 | ✓ | ✗ | ✓ |
+| Q-02 | ✓ | ✗ | ✓ |
+| Q-03 | ✓ | ✗ | ✓ |
+| Q-04 | ✓ | ✗ | ✓ |
+| Q-05 | ✗ | ✗ | ✓ |
+| Q-06 | ✓ | ✓ | ✓ |
+| Q-07 | ✓ | ✗ | ✗ |
+| Q-08 | ✓ | ✗ | ✓ |
+| Q-09 | ✓ | ✗ | ✓ |
+| Q-10 | ✓ | ✓ | ✓ |
+| Q-11 | ✓ | ✗ | ✓ |
+| Q-12 | ✓ | ✗ | ✓ |
+| Q-13 | ✗ | ✓ | ✓ |
+| Q-14 | ✗ | ✗ | ✓ |
+| Q-15 | ✗ | ✗ | ✓ |
+| Q-16 | ✓ | ✓ | ✓ |
+| Q-17 | ✗ | ✗ | ✗ |
+| Q-18 | ✓ | ✗ | ✓ |
+| Q-19 | ✓ | ✗ | ✓ |
+| Q-20 | ✗ | ✗ | ✗ |
+
+`✓` means the label and number both met the scoring rule. `✗` includes incorrect and unanswered responses; JSONL logs distinguish them.
 
 ---
 
@@ -235,31 +259,37 @@ python run.py --run-id c1-vague --strategies S3 --questions Q-01 Q-02 Q-03 Q-04 
 
 ### C1 — Does the tool description matter?
 
-Not run because the model API key is unavailable. To collect this evidence, select five question IDs and run S3 twice with the same run settings, adding `--vague-lookup` to the second run; the JSONL files log call counts, arguments and answers.
+Five identical questions were run with each description. Call counts below are total function invocations (one model round may contain multiple calls). The clear description used 22 calls total and answered 4/5; the vague description used 23 calls and answered 5/5. The inputs changed: for Q-01, Q-09, and Q-13 the clear prompt often searched combined names together, while the vague variant issued separate per-district lookups; for Q-18, the vague variant used shorter queries. This small sample does not show that vague descriptions are better: call counts did not consistently fall, and the answer change may be sampling variation.
 
-| Question | Calls (your description) | Calls (vague) | Answer (yours) | Answer (vague) |
-|---|---:|---:|---|---|
-| | | | | |
+| Question | Calls (your description) | Calls (vague) | Inputs (example difference) | Answer (yours) | Answer (vague) |
+|---|---:|---:|---|---|---|
+| Q-01 | 3 | 4 | Combined Ossbridge/Ossford lookup vs separate lookups | Ossbridge \| 4.57 | Ossbridge \| 4.57 |
+| Q-09 | 4 | 4 | Combined Brightwater/Millbrook lookup vs separate lookups | Millbrook \| 0.56 | Millbrook \| 0.56 |
+| Q-13 | 4 | 5 | Clear query combines three districts; vague query split them | Coldharbour \| 4.16 | Coldharbour \| 4.16 |
+| Q-18 | 2 | 3 | Correction-aware full query vs short `Millbrook population 2020 2025` | yes \| 40,013 | yes \| 40,013 |
+| Q-20 | 9 | 7 | Both looked up districts separately; clear variant repeated calls | unanswered (round limit) | Ashgrove \| 2,993 |
 
 ### C2 — Three mistakes explained
 
-This comparison requires actual answers and logs, so I cannot select or quote three mistakes yet. The expected mechanisms to check against the logs are: S1 can miss or misread a fact in a long prompt; S2 can reduce random variation but repeated samples may share the same systematic error; S3 delegates arithmetic to a bounded calculator, while retrieval errors or a wrong expression can still produce a wrong answer. Each S3 round resends the growing conversation, so later requests can use more input tokens.
+1. **S1, Q-20:** the log says `ANSWER: Ashgrove | 2,998.45 tenge per resident`, while the expected value is 2,993. The model selected the right district but its intermediate per-resident arithmetic was slightly inaccurate; a direct prompt gives it no exact arithmetic enforcement.
+2. **S2, Q-04:** all five samples selected Ashgrove, for example `ANSWER: Ashgrove | 3.09 pupils per school more than Millbrook`; the correct district is Millbrook and the difference is 2.59. Voting cannot fix a systematic error shared by samples, and here sample values varied widely instead of converging on the right calculation.
+3. **S3, Q-17:** the log contains `{"expression":"7146 * 1000000 * 142.35 / 90212"}`. NR-15 says 1 megalitre is 1,000 cubic metres, but the model used 1,000,000, then continued requesting calculations until the five-round cap and was marked unanswered. The calculator evaluated the supplied expression safely and exactly; it cannot correct a wrong conversion or infer the intended formula. Repeated tool turns resend the growing conversation, so later calls consume more input tokens.
 
 ### C3 — Which strategy I would use, and what would change it
 
-No evidence-based winner can be selected before the runs. In principle, S1 is the lowest-call baseline for a tiny corpus and simple questions; S2 trades roughly five model calls per question for a chance to reduce sampling variance; S3 is attractive when traceable retrieval and exact arithmetic matter, but its tool loop adds latency and tokens. A very small budget or tight deadline would favor S1; a corpus 1,000 times larger would favor indexed retrieval with tools; questions requiring no arithmetic reduce the calculator's value.
+For this benchmark I would use S3: it scored 19/20 and 17/20, versus S1's 15/20 and 14/20 and S2's 4/20 in both runs. S3 took about 103–107 seconds per full set, roughly 2.8 times S1's 37–38 seconds; its total input-plus-output tokens (51,132 and 53,656) were close to S1's (50,004 and 49,876). S2 used about 4.9 times S1's tokens and was less accurate here. Exact dollar costs cannot be compared without the model rates. A very small budget or strict latency target would favor S1; for 1,000 times more documents I would choose indexed retrieval with tools; for questions that merely quote a fact without arithmetic, I would compare S1 against retrieval-only tools and avoid paying for an unnecessary calculator.
 
 ### C4 — How sure I can be
 
-Not measured: there are no two full runs to compare. Twenty questions from one fictional corpus would still be a small sample; the two-run difference and the gap between the top strategies must be computed from the saved outputs before drawing a strong conclusion.
+Accuracy varied by one question for S1 (15 to 14), zero for S2 (4 to 4), and two for S3 (19 to 17). S3 led S1 by four questions in run 1 and three in run 2, a gap larger than the observed two-question S3 run variation, but only 20 questions and two runs are weak evidence and the questions share one fictional corpus. I would want at least 100 representative questions across several runs before trusting a small ranking difference.
 
 ### Final questions
 
 1. A `tool_calls` message is the model requesting that the caller run named functions with supplied arguments; it has not run those functions itself. The application validates and executes each request, then sends a tool-role message keyed by the matching call ID so the model can continue.
 2. `arguments` is JSON serialized in the API message, so the program must parse it and validate the resulting object before calling a function. Passing the raw JSON string directly would make the function treat the whole serialized object as its query or expression, not as its named parameter.
 3. The two serialized tool definitions tokenize to an estimated **213 tokens** using `tiktoken` (the `o200k_base` encoding when the model name is not recognized). This is a local estimate of the JSON schema, not a measured API usage delta.
-4. The S2/S1 cost ratio is not measured because no model calls were made. The runner totals usage across all five S2 samples and calculates cost only when both per-million token prices are configured.
-5. Not known yet: no S3 question has been run. The JSONL tool-call logs will show the maximum number of model rounds per question.
+4. The exact S2/S1 dollar-cost ratio is unavailable because the model's input/output rates were not known. As a token-use proxy, S2 used 243,653 total tokens against S1's 50,004 in run 1 (4.87x), and 243,716 against 49,876 in run 2 (4.89x), primarily because it sends five full-document prompts per question.
+5. Q-17 reached the five-round limit in run 1 while computing water cost per resident; it made repeated retrieval requests and used the wrong megalitre-to-cubic-metre multiplier. In run 2 Q-07 and Q-20 also reached the limit, so Q-17 was tied for the maximum.
 6. For 100,000 documents, I would replace a full scan with a search index or retrieval service, filter by document metadata/version, and rank a small set of relevant passages. I would retain source IDs, archived-status filtering, and correction precedence.
 7. `calculate` parses an AST and permits only numeric constants, unary signs, and `+`, `-`, `*`, `/`; it rejects calls, attributes, powers, oversized expressions, division by zero, and non-finite or excessive results. The model can still select incorrect facts, units, or an incorrect expression, so safe execution does not guarantee a correct answer.
 8. Tools are most useful for multi-document questions that require combining figures, unit conversion, and arithmetic. They add less value when the answer is stated directly in a small prompt and no calculation or source verification is needed.

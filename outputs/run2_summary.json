@@ -1,0 +1,460 @@
+{
+  "run_id": "run2",
+  "model": "gpt-5.6-luna",
+  "vague_lookup_description": false,
+  "summaries": [
+    {
+      "run_id": "run2",
+      "strategy": "S1",
+      "model": "gpt-5.6-luna",
+      "questions_run": 20,
+      "correct": 14,
+      "unanswered": 0,
+      "input_tokens": 48000,
+      "output_tokens": 1876,
+      "median_seconds_per_question": 1.77040790009778,
+      "total_seconds": 38.07625519996509,
+      "estimated_cost_usd": null,
+      "token_prices_per_million": null,
+      "temperature_supported": null,
+      "tool_definition_tokens_estimate": null,
+      "results_file": "run2_S1.jsonl"
+    },
+    {
+      "run_id": "run2",
+      "strategy": "S2",
+      "model": "gpt-5.6-luna",
+      "questions_run": 20,
+      "correct": 4,
+      "unanswered": 0,
+      "input_tokens": 241900,
+      "output_tokens": 1816,
+      "median_seconds_per_question": 5.430156449903734,
+      "total_seconds": 108.17003980022855,
+      "estimated_cost_usd": null,
+      "token_prices_per_million": null,
+      "temperature_supported": true,
+      "tool_definition_tokens_estimate": null,
+      "results_file": "run2_S2.jsonl"
+    },
+    {
+      "run_id": "run2",
+      "strategy": "S3",
+      "model": "gpt-5.6-luna",
+      "questions_run": 20,
+      "correct": 17,
+      "unanswered": 2,
+      "input_tokens": 50017,
+      "output_tokens": 3639,
+      "median_seconds_per_question": 5.330859599984251,
+      "total_seconds": 107.3155163996853,
+      "estimated_cost_usd": null,
+      "token_prices_per_million": null,
+      "temperature_supported": null,
+      "tool_definition_tokens_estimate": 213,
+      "results_file": "run2_S3.jsonl"
+    }
+  ],
+  "per_question": [
+    {
+      "question_id": "Q-01",
+      "strategies": {
+        "S1": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Ossbridge: 52,904 ÷ 1,284.6 = 41.18 residents/km².  \nOssford: 30,982 ÷ 846.2 = 36.61 residents/km².  \n\nOssbridge has the higher population density by **4.57 residents per square kilometre**.\n\nANSWER: Ossbridge | 4.57 residents per square kilometre"
+        },
+        "S2": {
+          "correct": false,
+          "unanswered": false,
+          "answer": "ANSWER: Ossbridge | 0.60 residents per square kilometre"
+        },
+        "S3": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Ossbridge has the higher 2025 population density: 41.18 residents/km² versus Ossford’s 36.61 residents/km², a difference of **4.57 residents per square kilometre**.\n\nANSWER: Ossbridge | 4.57 residents per square kilometre"
+        }
+      }
+    },
+    {
+      "question_id": "Q-02",
+      "strategies": {
+        "S1": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Tarnvale grew faster. Tarnvale increased by \\(6.21\\%\\), while Harrowfield increased by \\(7.90\\%\\), a difference of **1.69 percentage points**.\n\nANSWER: Harrowfield | 1.69 percentage points"
+        },
+        "S2": {
+          "correct": false,
+          "unanswered": false,
+          "answer": "ANSWER: Harrowfield | 0.24 percentage points"
+        },
+        "S3": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Harrowfield grew faster. Tarnvale grew by 6.21%, while Harrowfield grew by 7.90%, a difference of **1.69 percentage points**.\n\nANSWER: Harrowfield | 1.69 percentage points"
+        }
+      }
+    },
+    {
+      "question_id": "Q-03",
+      "strategies": {
+        "S1": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Lindenmoor: 2,151,400 m³ ÷ 29,051 residents ÷ 365 × 1,000 = 202.89 L/resident/day.\n\nKelmarsh: 1,739 ML = 1,739,000 m³; ÷ 24,117 residents ÷ 365 × 1,000 = 197.66 L/resident/day.\n\nLindenmoor used more, by 5.23 litres per resident per day.\n\nANSWER: Lindenmoor | 5.23 litres per resident per day"
+        },
+        "S2": {
+          "correct": false,
+          "unanswered": false,
+          "answer": "ANSWER: Lindenmoor | 0.40 litres per resident per day more"
+        },
+        "S3": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Lindenmoor used more water: approximately **5.34 litres per resident per day** more than Kelmarsh (202.89 vs. 197.55).\n\nANSWER: Lindenmoor | 5.34 litres per resident per day"
+        }
+      }
+    },
+    {
+      "question_id": "Q-04",
+      "strategies": {
+        "S1": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Ashgrove: 8,837 ÷ 24 = 368.21 pupils per school.  \nMillbrook: 5,562 ÷ 15 = 370.80 pupils per school.  \n\nMillbrook has more, by 2.59 pupils per school.  \nANSWER: Millbrook | 2.59 pupils per school"
+        },
+        "S2": {
+          "correct": false,
+          "unanswered": false,
+          "answer": "ANSWER: Millbrook | 40.80 pupils per school more (370.80 vs 368.21)"
+        },
+        "S3": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Millbrook has more pupils per school. Ashgrove averages 368.21 pupils per school, while Millbrook averages 370.80—a difference of 2.59 pupils per school.\n\nANSWER: Millbrook | 2.59 pupils per school"
+        }
+      }
+    },
+    {
+      "question_id": "Q-05",
+      "strategies": {
+        "S1": {
+          "correct": false,
+          "unanswered": false,
+          "answer": "Stonecairn: \\(2{,}884.6\\) million tenge ÷ \\(14{,}926\\) residents = \\(193{,}281.2\\) tenge per resident.\n\nColdharbour: \\(2{,}366.9\\) million tenge ÷ \\(11{,}407\\) residents = \\(207{,}518.2\\) tenge per resident.\n\nColdharbour had the larger budget per resident by **14,237.0 tenge per resident**.\n\nANSWER: Coldharbour | 14,237.0 tenge per resident"
+        },
+        "S2": {
+          "correct": false,
+          "unanswered": false,
+          "answer": "ANSWER: Stonecairn | 27,172.34 tenge per resident more"
+        },
+        "S3": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Coldharbour had the larger 2025 budget per resident: approximately **14,235 tenge more per resident** (Coldharbour: 207,495; Stonecairn: 193,260).  \n\nANSWER: Coldharbour | 14,235 tenge per resident"
+        }
+      }
+    },
+    {
+      "question_id": "Q-06",
+      "strategies": {
+        "S1": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Yes. Redfen and Kelmarsh together had 45,051 residents (20,934 + 24,117), compared with Ossford’s 30,982—a difference of 14,069 residents. ANSWER: yes | 14,069 residents"
+        },
+        "S2": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "ANSWER: yes | 14,069 residents"
+        },
+        "S3": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Yes. Redfen and Kelmarsh together had 45,051 residents in 2025, which is 14,069 more than Ossford’s 30,982.\n\nANSWER: yes | 14069"
+        }
+      }
+    },
+    {
+      "question_id": "Q-07",
+      "strategies": {
+        "S1": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Coldharbour: \\(598.3 \\div 11,407 \\times 1,000 = 52.46\\) km per 1,000 residents.\n\nStonecairn: \\(506.8 \\div 14,926 \\times 1,000 = 33.96\\) km per 1,000 residents.\n\nDifference: \\(52.46 - 33.96 = 18.50\\) km per 1,000 residents.\n\nANSWER: Coldharbour | 18.50 km per 1,000 residents"
+        },
+        "S2": {
+          "correct": false,
+          "unanswered": false,
+          "answer": "ANSWER: Coldharbour | 16.34 km per 1,000 residents more"
+        },
+        "S3": {
+          "correct": false,
+          "unanswered": true,
+          "answer": ""
+        }
+      }
+    },
+    {
+      "question_id": "Q-08",
+      "strategies": {
+        "S1": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Brightwater’s households paid more.\n\n- Brightwater: 3,315 ML × 1,000 m³/ML × 142.35 tenge/m³ = 471.89025 million tenge\n- Millbrook: 2,806 ML × 1,000 × 142.35 = 399.4341 million tenge\n- Difference: 72.45615 million tenge\n\nANSWER: Brightwater | 72.45615 million tenge"
+        },
+        "S2": {
+          "correct": false,
+          "unanswered": false,
+          "answer": "ANSWER: Brightwater | 72.37 million tenge"
+        },
+        "S3": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Brightwater's households paid more. The difference was:\n\n- Water-use difference: 3,315 − 2,806 = 509 megalitres = 509,000 cubic metres\n- Cost difference: 509,000 × 142.35 tenge = 72.45615 million tenge\n\nANSWER: Brightwater | 72.45615 million tenge"
+        }
+      }
+    },
+    {
+      "question_id": "Q-09",
+      "strategies": {
+        "S1": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Brightwater: 44,675 ÷ 921.4 = 48.49 residents/km².  \nMillbrook: 37,203 ÷ 758.6 = 49.05 residents/km².  \n\nMillbrook has the higher 2025 population density by approximately 0.56 residents per square kilometre.\n\nANSWER: Millbrook | 0.56 residents per square kilometre"
+        },
+        "S2": {
+          "correct": false,
+          "unanswered": false,
+          "answer": "ANSWER: Brightwater | 0.78 residents per square kilometre"
+        },
+        "S3": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Millbrook has the higher 2025 population density. Brightwater: 48.486 residents/km²; Millbrook: 49.042 residents/km². Difference: 0.556 residents/km².\n\nANSWER: Millbrook | 0.556 residents per square kilometre"
+        }
+      }
+    },
+    {
+      "question_id": "Q-10",
+      "strategies": {
+        "S1": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Stonecairn was founded in 1837, while Coldharbour was founded in 1845. Stonecairn is 8 years older.\n\nANSWER: Stonecairn | 8 years"
+        },
+        "S2": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "ANSWER: Stonecairn | 8 years"
+        },
+        "S3": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Stonecairn is older. It was founded in 1837, compared with Coldharbour in 1845, making it 8 years older.\n\nANSWER: Stonecairn | 8 years"
+        }
+      }
+    },
+    {
+      "question_id": "Q-11",
+      "strategies": {
+        "S1": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Redfen: 3,147 ÷ 10 = 314.7 pupils per school  \nAshgrove: 8,837 ÷ 24 = 368.2 pupils per school  \nMillbrook: 5,562 ÷ 15 = 370.8 pupils per school  \n\nRedfen has the fewest. The difference between the highest and lowest is 370.8 − 314.7 = 56.1 pupils per school.\n\nANSWER: Redfen | 56.1 pupils per school"
+        },
+        "S2": {
+          "correct": false,
+          "unanswered": false,
+          "answer": "ANSWER: Ashgrove | 242.95 pupils per school"
+        },
+        "S3": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Redfen has the fewest pupils per school: 314.7. Millbrook has the highest at 370.8, so the difference is **56.1 pupils per school**.\n\nANSWER: Redfen | 56.1 pupils per school"
+        }
+      }
+    },
+    {
+      "question_id": "Q-12",
+      "strategies": {
+        "S1": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Harrowfield: 16,021.7 million tenge ÷ 13,904 pupils = 1,152.30 thousand tenge per pupil.  \nTarnvale: 12,960.3 million tenge ÷ 10,652 pupils = 1,216.70 thousand tenge per pupil.  \n\nTarnvale is higher by **64.40 thousand tenge per pupil**.  \n\nANSWER: Tarnvale | 64.40 thousand tenge per pupil"
+        },
+        "S2": {
+          "correct": false,
+          "unanswered": false,
+          "answer": "ANSWER: Harrowfield | 343.2 thousand tenge per pupil more"
+        },
+        "S3": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Tarnvale works out higher: about **1,216.7 thousand tenge per pupil**, versus Harrowfield’s **1,152.3 thousand**—a difference of **64.4 thousand tenge per pupil**.\n\nANSWER: Tarnvale | 64.4 thousand tenge per pupil"
+        }
+      }
+    },
+    {
+      "question_id": "Q-13",
+      "strategies": {
+        "S1": {
+          "correct": false,
+          "unanswered": false,
+          "answer": "Stonecairn lost the largest percentage: \\((15,473 - 14,926) / 15,473 \\times 100 \\approx 3.53\\%\\).\n\nANSWER: Stonecairn | 3.53%"
+        },
+        "S2": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "ANSWER: Coldharbour | 4.16%"
+        },
+        "S3": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Coldharbour lost the largest percentage of its population: **4.16%** (495 people, from 11,902 to 11,407).\n\nANSWER: Coldharbour | 4.16%"
+        }
+      }
+    },
+    {
+      "question_id": "Q-14",
+      "strategies": {
+        "S1": {
+          "correct": false,
+          "unanswered": false,
+          "answer": "Tarnvale: 5,207 megalitres ÷ 71,388 residents ÷ 365 days × 1,000 = 0.200 litres per resident per day.\n\nAshgrove: 4,390 megalitres ÷ 58,760 residents ÷ 365 days × 1,000 = 0.205 litres per resident per day.\n\nAshgrove used more, by approximately 0.005 litres per resident per day.\n\nANSWER: Ashgrove | 0.005 litres per resident per day"
+        },
+        "S2": {
+          "correct": false,
+          "unanswered": false,
+          "answer": "ANSWER: Tarnvale | 0.024 litres per resident per day more"
+        },
+        "S3": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Ashgrove used more water: approximately **4.85 litres per resident per day** more than Tarnvale (204.69 vs 199.83).\n\nANSWER: Ashgrove | 4.85 litres per resident per day"
+        }
+      }
+    },
+    {
+      "question_id": "Q-15",
+      "strategies": {
+        "S1": {
+          "correct": false,
+          "unanswered": false,
+          "answer": "Kelmarsh: 3,268 ÷ 11 = 296. m? pupils per school.  \nRedfen: 3,147 ÷ 10 = 314.7 pupils per school.  \n\nRedfen has more, by 18.7 pupils per school.\n\nANSWER: Redfen | 18.7 pupils per school"
+        },
+        "S2": {
+          "correct": false,
+          "unanswered": false,
+          "answer": "ANSWER: Kelmarsh | 4.82 pupils per school more"
+        },
+        "S3": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Redfen has more pupils per school in 2025/26, by **17.61 pupils per school**.\n\nANSWER: Redfen | 17.61 pupils per school"
+        }
+      }
+    },
+    {
+      "question_id": "Q-16",
+      "strategies": {
+        "S1": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Yes. Ossbridge and Ossford together cover 2,130.8 km²; Tarnvale covers 2,106.9 km². They differ by 23.9 km². ANSWER: yes | 23.9 square kilometres"
+        },
+        "S2": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "ANSWER: yes | 23.9 square kilometres"
+        },
+        "S3": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Yes. Ossbridge and Ossford together cover 2,130.8 km², which is 23.9 km² more than Tarnvale’s 2,106.9 km². ANSWER: yes | 23.9 km²"
+        }
+      }
+    },
+    {
+      "question_id": "Q-17",
+      "strategies": {
+        "S1": {
+          "correct": false,
+          "unanswered": false,
+          "answer": "Harrowfield. Water use per resident:\n\n- Harrowfield: \\(7{,}146{,}000 \\div 90{,}212 = 79.22\\) m³; cost = \\(79.22 \\times 142.35 = 11{,}276.57\\) tenge\n- Ossbridge: \\(3{,}862{,}000 \\div 52{,}904 = 72.95\\) m³; cost = \\(72.95 \\times 142.35 = 10{,}386.70\\) tenge\n\nDifference: \\(11{,}276.57 - 10{,}386.70 = 889.87\\) tenge per resident.\n\nANSWER: Harrowfield | 889.87 tenge per resident"
+        },
+        "S2": {
+          "correct": false,
+          "unanswered": false,
+          "answer": "ANSWER: Harrowfield | 1,144.82 tenge per resident"
+        },
+        "S3": {
+          "correct": false,
+          "unanswered": false,
+          "answer": "Harrowfield households paid more: about **1,884,457 tenge more per resident** than Ossbridge.\n\nCalculation:\n- Harrowfield: 7,146 ML × 1,000,000 × 142.35 ÷ 90,212 = 11,276,028.69 tenge/resident\n- Ossbridge: 3,862 ML × 1,000,000 × 142.35 ÷ 52,904 = 10,391,571.53 tenge/resident\n\nANSWER: Harrowfield | 1884457.16 tenge per resident"
+        }
+      }
+    },
+    {
+      "question_id": "Q-18",
+      "strategies": {
+        "S1": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Millbrook grew from 34,590 to 37,203, an increase factor of \\(37,203 / 34,590\\). Applying the same percentage growth again:\n\n\\[\n37,203 \\times \\frac{37,203}{34,590} \\approx 40,014\n\\]\n\nYes, the projected 2030 population would exceed 40,000 residents.\n\nANSWER: yes | 40,014 residents"
+        },
+        "S2": {
+          "correct": false,
+          "unanswered": false,
+          "answer": "ANSWER: no | 40,012.57 residents"
+        },
+        "S3": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Millbrook grew from 34,590 residents in 2020 to 37,203 in 2025, a growth factor of approximately 1.07554. Applying the same percentage growth:\n\n2030 projected population = 37,203 × (37,203 ÷ 34,590) ≈ **40,013 residents**.\n\nYes, it would exceed 40,000 residents.\n\nANSWER: yes | 40,013 residents"
+        }
+      }
+    },
+    {
+      "question_id": "Q-19",
+      "strategies": {
+        "S1": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Lindenmoor: \\(402.3 \\div 1,015.7 \\approx 0.3960\\) km/km²; Redfen: \\(244.6 \\div 677.1 \\approx 0.3613\\) km/km². Difference: approximately **0.0347 km of road per square kilometre**.\n\nANSWER: Lindenmoor | 0.0347 km/km²"
+        },
+        "S2": {
+          "correct": false,
+          "unanswered": false,
+          "answer": "ANSWER: Redfen | 0.1518 km/km² (Redfen 0.3612 vs Lindenmoor 0.3960; Lindenmoor is denser by 0.0348 km/km²)"
+        },
+        "S3": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Lindenmoor has the denser paved road network: 0.396 km/km² versus Redfen’s 0.361 km/km², a difference of 0.035 km per square kilometre.\n\nANSWER: Lindenmoor | 0.035 km/km²"
+        }
+      }
+    },
+    {
+      "question_id": "Q-20",
+      "strategies": {
+        "S1": {
+          "correct": false,
+          "unanswered": false,
+          "answer": "Using the 2025 budgets and populations:\n\n- Ossbridge: 9,284.5 million ÷ 52,904 = 175,482.95 tenge/resident\n- Ashgrove: 10,488.1 million ÷ 58,760 = 178,489.45 tenge/resident\n- Harrowfield: 16,021.7 million ÷ 90,212 = 177,586.54 tenge/resident\n\nAshgrove had the largest budget per resident. It exceeded Ossbridge, the lowest, by **3,006.50 tenge per resident**.\n\nANSWER: Ashgrove | 3,006.50 tenge per resident"
+        },
+        "S2": {
+          "correct": false,
+          "unanswered": false,
+          "answer": "ANSWER: Harrowfield | 71,773.49 tenge per resident"
+        },
+        "S3": {
+          "correct": false,
+          "unanswered": true,
+          "answer": ""
+        }
+      }
+    }
+  ]
+}

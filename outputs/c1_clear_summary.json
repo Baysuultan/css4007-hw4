@@ -1,0 +1,76 @@
+{
+  "run_id": "c1_clear",
+  "model": "gpt-5.6-luna",
+  "vague_lookup_description": false,
+  "summaries": [
+    {
+      "run_id": "c1_clear",
+      "strategy": "S3",
+      "model": "gpt-5.6-luna",
+      "questions_run": 5,
+      "correct": 4,
+      "unanswered": 1,
+      "input_tokens": 13287,
+      "output_tokens": 932,
+      "median_seconds_per_question": 5.472922699991614,
+      "total_seconds": 28.838027299847454,
+      "estimated_cost_usd": null,
+      "token_prices_per_million": null,
+      "temperature_supported": null,
+      "tool_definition_tokens_estimate": 213,
+      "results_file": "c1_clear_S3.jsonl"
+    }
+  ],
+  "per_question": [
+    {
+      "question_id": "Q-01",
+      "strategies": {
+        "S3": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Ossbridge has the higher 2025 population density.\n\n- Ossbridge: 52,904 ÷ 1,284.6 = 41.18 residents/km²\n- Ossford: 30,982 ÷ 846.2 = 36.61 residents/km²\n- Difference: 4.57 residents/km²\n\nANSWER: Ossbridge | 4.57 residents per square kilometre"
+        }
+      }
+    },
+    {
+      "question_id": "Q-09",
+      "strategies": {
+        "S3": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Millbrook has the higher 2025 population density by approximately **0.56 residents per square kilometre**. Millbrook: 49.04 residents/km²; Brightwater: 48.49 residents/km².\n\nANSWER: Millbrook | 0.56 residents per square kilometre"
+        }
+      }
+    },
+    {
+      "question_id": "Q-13",
+      "strategies": {
+        "S3": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Coldharbour lost the largest percentage: **4.16%** (495 fewer residents, from 11,902 to 11,407).\n\nANSWER: Coldharbour | 4.16%"
+        }
+      }
+    },
+    {
+      "question_id": "Q-18",
+      "strategies": {
+        "S3": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Millbrook’s population grew from 34,590 in 2020 to 37,203 in 2025, an increase of approximately 7.55%.\n\nApplying the same percentage increase:\n\n**Projected 2030 population: approximately 40,013 residents.**\n\nYes, it would exceed 40,000 residents.  \nANSWER: yes | 40,013"
+        }
+      }
+    },
+    {
+      "question_id": "Q-20",
+      "strategies": {
+        "S3": {
+          "correct": false,
+          "unanswered": true,
+          "answer": ""
+        }
+      }
+    }
+  ]
+}

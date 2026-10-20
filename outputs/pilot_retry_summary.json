@@ -1,0 +1,56 @@
+{
+  "run_id": "pilot_retry",
+  "model": "gpt-5.6-luna",
+  "vague_lookup_description": false,
+  "summaries": [
+    {
+      "run_id": "pilot_retry",
+      "strategy": "S3",
+      "model": "gpt-5.6-luna",
+      "questions_run": 3,
+      "correct": 3,
+      "unanswered": 0,
+      "input_tokens": 6630,
+      "output_tokens": 536,
+      "median_seconds_per_question": 5.215363299939781,
+      "total_seconds": 20.294898699969053,
+      "estimated_cost_usd": null,
+      "token_prices_per_million": null,
+      "temperature_supported": null,
+      "tool_definition_tokens_estimate": 213,
+      "results_file": "pilot_retry_S3.jsonl"
+    }
+  ],
+  "per_question": [
+    {
+      "question_id": "Q-01",
+      "strategies": {
+        "S3": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Ossbridge has the higher 2025 population density: approximately 41.18 residents/km² versus Ossford’s 36.61 residents/km², a difference of 4.57 residents/km².\n\nANSWER: Ossbridge | 4.57 residents per square kilometre"
+        }
+      }
+    },
+    {
+      "question_id": "Q-09",
+      "strategies": {
+        "S3": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Millbrook has the higher 2025 population density: 49.04 versus Brightwater’s 48.49 residents per square kilometre, a difference of **0.56 residents per square kilometre**.\n\nANSWER: Millbrook | 0.56 residents per square kilometre"
+        }
+      }
+    },
+    {
+      "question_id": "Q-18",
+      "strategies": {
+        "S3": {
+          "correct": true,
+          "unanswered": false,
+          "answer": "Millbrook’s population grew by approximately 7.55% from 2020 to 2025:\n\n\\[\n\\frac{37,203-34,590}{34,590}\\times100 \\approx 7.55\\%\n\\]\n\nApplying the same growth rate to 2025:\n\n\\[\n37,203 \\times \\frac{37,203}{34,590} \\approx 40,013\n\\]\n\nYes, the projected 2030 population is approximately **40,013 residents**, exceeding 40,000.\n\nANSWER: yes | 40,013"
+        }
+      }
+    }
+  ]
+}
