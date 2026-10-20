@@ -157,27 +157,43 @@ One alternative is a single `answer_question` tool that reads the corpus, identi
 
 ### What I changed from Part A while coding
 
-<!-- what changed in your plan, and why. "None" is an answer too. -->
+None. `lookup` returns at most four short, cited excerpts; it excludes archived profiles and includes the Brightwater correction when relevant. `calculate` accepts only finite numeric constants and `+`, `-`, `*`, `/`, and parentheses.
 
 ### B2 — Tests
 
 ```text
-<!-- pytest output -->
+python -m pytest -q
+...................                                                      [100%]
+19 passed in 1.91s
 ```
 
 ### B3 — The loop
 
-- Round limit, and why:
-- Where the logs are:
-- Real Q-09 conversation compared with my A3 version, what is different:
+- Round limit, and why: 5 assistant/tool rounds. A question normally needs only a few fact lookups and calculations; the limit prevents an unbounded loop. If the fifth response still requests tools, the question is marked unanswered.
+- Where the logs are: `outputs/<run-id>_<strategy>.jsonl` records each question, model-call usage/time, each tool call's ID, raw and parsed inputs, result and tool duration. `outputs/<run-id>_summary.json` contains aggregate metrics and per-question scores.
+- Real Q-09 conversation compared with my A3 version, what is different: Not measured yet. The API key is not configured in this environment, so no real conversation has been generated; the saved A3 exchange is the planned conversation, not a claimed model trace.
 
 ### B4 — Three strategies
 
 **What I kept the same:**
 
-<!-- model, temperature, k, prompts, answer format, anything else -->
+Model `gpt-5.6-luna`, Chat Completions API, the same 20 questions, base answer-format instructions, and `max_completion_tokens=500`. S1 and S2 receive all 17 source documents; S3 receives no corpus text and has only the two tools. S2 makes five independent calls (`k=5`) with `temperature=1`; the runner retries without that setting only if the API rejects it, and records whether temperature was supported. S3 uses a five-round limit. Usage sums every API response, including all five S2 samples and every S3 round. API token prices are supplied through `OPENAI_INPUT_PRICE_PER_MILLION` and `OPENAI_OUTPUT_PRICE_PER_MILLION`; cost stays blank in results unless both rates are configured.
 
 **My rule for a correct answer** (written before the first full run):
+
+The parsed answer label must exactly match the expected name or `yes`/`no` (case-insensitive); the numeric value must be within `10^-decimals` of the expected value. The tolerance is one unit in the last reported decimal place. An unparseable or absent `ANSWER:` line is unanswered/incorrect.
+
+**Run status:** No paid model runs have been made: `OPENAI_API_KEY` is not set. Therefore the result and per-question tables below are intentionally unfilled; no API outputs, timings, costs, or accuracies have been fabricated. Configure a local, ignored `.env`, then run the pilot and two full runs as described in `README.md` before submitting.
+
+Example commands after setting the key and both token-price environment variables:
+
+```text
+python run.py --run-id pilot --strategies S3 --questions Q-09 Q-01 Q-18
+python run.py --run-id run1
+python run.py --run-id run2
+python run.py --run-id c1-clear --strategies S3 --questions Q-01 Q-02 Q-03 Q-04 Q-05
+python run.py --run-id c1-vague --strategies S3 --questions Q-01 Q-02 Q-03 Q-04 Q-05 --vague-lookup
+```
 
 | Run | Strategy | Correct /20 | Unanswered | Input tokens | Output tokens | Median seconds per question | Total seconds | Cost ($) |
 |---|---|---:|---:|---:|---:|---:|---:|---:|
@@ -219,23 +235,31 @@ One alternative is a single `answer_question` tool that reads the corpus, identi
 
 ### C1 — Does the tool description matter?
 
+Not run because the model API key is unavailable. To collect this evidence, select five question IDs and run S3 twice with the same run settings, adding `--vague-lookup` to the second run; the JSONL files log call counts, arguments and answers.
+
 | Question | Calls (your description) | Calls (vague) | Answer (yours) | Answer (vague) |
 |---|---:|---:|---|---|
 | | | | | |
 
 ### C2 — Three mistakes explained
 
+This comparison requires actual answers and logs, so I cannot select or quote three mistakes yet. The expected mechanisms to check against the logs are: S1 can miss or misread a fact in a long prompt; S2 can reduce random variation but repeated samples may share the same systematic error; S3 delegates arithmetic to a bounded calculator, while retrieval errors or a wrong expression can still produce a wrong answer. Each S3 round resends the growing conversation, so later requests can use more input tokens.
+
 ### C3 — Which strategy I would use, and what would change it
+
+No evidence-based winner can be selected before the runs. In principle, S1 is the lowest-call baseline for a tiny corpus and simple questions; S2 trades roughly five model calls per question for a chance to reduce sampling variance; S3 is attractive when traceable retrieval and exact arithmetic matter, but its tool loop adds latency and tokens. A very small budget or tight deadline would favor S1; a corpus 1,000 times larger would favor indexed retrieval with tools; questions requiring no arithmetic reduce the calculator's value.
 
 ### C4 — How sure I can be
 
+Not measured: there are no two full runs to compare. Twenty questions from one fictional corpus would still be a small sample; the two-run difference and the gap between the top strategies must be computed from the saved outputs before drawing a strong conclusion.
+
 ### Final questions
 
-1.
-2.
-3.
-4.
-5.
-6.
-7.
-8.
+1. A `tool_calls` message is the model requesting that the caller run named functions with supplied arguments; it has not run those functions itself. The application validates and executes each request, then sends a tool-role message keyed by the matching call ID so the model can continue.
+2. `arguments` is JSON serialized in the API message, so the program must parse it and validate the resulting object before calling a function. Passing the raw JSON string directly would make the function treat the whole serialized object as its query or expression, not as its named parameter.
+3. The two serialized tool definitions tokenize to an estimated **213 tokens** using `tiktoken` (the `o200k_base` encoding when the model name is not recognized). This is a local estimate of the JSON schema, not a measured API usage delta.
+4. The S2/S1 cost ratio is not measured because no model calls were made. The runner totals usage across all five S2 samples and calculates cost only when both per-million token prices are configured.
+5. Not known yet: no S3 question has been run. The JSONL tool-call logs will show the maximum number of model rounds per question.
+6. For 100,000 documents, I would replace a full scan with a search index or retrieval service, filter by document metadata/version, and rank a small set of relevant passages. I would retain source IDs, archived-status filtering, and correction precedence.
+7. `calculate` parses an AST and permits only numeric constants, unary signs, and `+`, `-`, `*`, `/`; it rejects calls, attributes, powers, oversized expressions, division by zero, and non-finite or excessive results. The model can still select incorrect facts, units, or an incorrect expression, so safe execution does not guarantee a correct answer.
+8. Tools are most useful for multi-document questions that require combining figures, unit conversion, and arithmetic. They add less value when the answer is stated directly in a small prompt and no calculation or source verification is needed.
