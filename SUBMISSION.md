@@ -136,7 +136,7 @@ Use 2025 census, fiscal-year, and water-use figures unless the question explicit
   {
     "role": "tool",
     "tool_call_id": "call_calculate_1",
-    "content": "{\"result\":0.572...}"
+    "content": "{\"result\":0.555656...}"
   },
   {
     "role": "assistant",
